@@ -46,7 +46,7 @@ export class UserService {
     return {
       id: currentUser.id,
       login: currentUser.login,
-      password: currentUser.password,
+      //password: currentUser.password,
       version: currentUser.version,
       createdAt: currentUser.createdAt,
       updatedAt: currentUser.updatedAt,
@@ -71,7 +71,7 @@ export class UserService {
       return {
         id: currentCat.id,
         login: currentCat.login,
-        password: currentCat.password,
+        //password: currentCat.password,
         version: currentCat.version,
         createdAt: currentCat.createdAt,
         updatedAt: currentCat.updatedAt,
