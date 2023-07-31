@@ -9,8 +9,15 @@ import { FavsModule } from './favs/favs.module';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [UserModule, AlbumModule, ArtistModule, TrackModule, FavsModule, ConfigModule.forRoot()],
+  imports: [
+    UserModule,
+    AlbumModule,
+    ArtistModule,
+    TrackModule,
+    FavsModule,
+    ConfigModule.forRoot(),
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}

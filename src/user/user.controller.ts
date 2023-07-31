@@ -1,8 +1,21 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, ParseUUIDPipe, NotFoundException, Put, ForbiddenException, BadRequestException } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  HttpCode,
+  ParseUUIDPipe,
+  NotFoundException,
+  Put,
+  ForbiddenException,
+  BadRequestException,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-passwd.dto';
-import { v4 as uuidv4, validate } from 'uuid';
+import { validate } from 'uuid';
 
 @Controller('user')
 export class UserController {
@@ -35,20 +48,17 @@ export class UserController {
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Body() updateUserDto: UpdateUserDto,
   ) {
-    const cat  = this.userService.updatePassword(id, updateUserDto);
-    if(cat === undefined)
+    const cat = this.userService.updatePassword(id, updateUserDto);
+    if (cat === undefined)
       throw new NotFoundException(`user ${id} doesnt exist in database`);
-    else if(cat === false)
-      throw new ForbiddenException(`wrong password for user ${id}`) //403
-    else 
-      return cat;
+    else if (cat === false)
+      throw new ForbiddenException(`wrong password for user ${id}`); //403
+    else return cat;
   }
   @Delete(':id')
   @HttpCode(204)
   remove(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
-    if (this.userService.remove(id))
-      return "User was found and deleted"
-    else 
-      throw new NotFoundException(`user ${id} doesnt exist in database`);
+    if (this.userService.remove(id)) return 'User was found and deleted';
+    else throw new NotFoundException(`user ${id} doesnt exist in database`);
   }
 }

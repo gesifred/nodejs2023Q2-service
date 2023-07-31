@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 //import { UpdateUserDto } from './dto/update-user.dto';
 //import { CreateCatDto } from './dto/create-cat.dto';
@@ -35,13 +35,12 @@ export class UserService {
   }
 
   findOne(id: string) {
-    let currentUser: User = CatDb.getUser(id);
+    const currentUser: User = CatDb.getUser(id);
 
     /*this.cats.forEach(cat => {
       if (cat.id == id) currentCat = cat
     });*/
-    if (currentUser === undefined)
-      return false
+    if (currentUser === undefined) return false;
 
     return {
       id: currentUser.id,
@@ -50,18 +49,16 @@ export class UserService {
       version: currentUser.version,
       createdAt: currentUser.createdAt,
       updatedAt: currentUser.updatedAt,
-    }
+    };
   }
   updatePassword(id: string, updateUserDto: UpdateUserDto) {
-    let currentCat: User = CatDb.getUser(id);
-    if (currentCat === undefined)
-      return undefined
+    const currentCat: User = CatDb.getUser(id);
+    if (currentCat === undefined) return undefined;
     else {
-      console.log("to update ", currentCat);
+      console.log('to update ', currentCat);
       //console.log(`comparing old ${updateUserDto.oldPassword} with new ${currentCat.password}`)
-      if (updateUserDto.oldPassword !== currentCat.password)
-        return false
-      currentCat.password = updateUserDto.newPassword
+      if (updateUserDto.oldPassword !== currentCat.password) return false;
+      currentCat.password = updateUserDto.newPassword;
       currentCat.version++;
       currentCat.updatedAt = Date.now();
       if (updateUserDto.login) currentCat.login = updateUserDto.login;
@@ -75,14 +72,13 @@ export class UserService {
         version: currentCat.version,
         createdAt: currentCat.createdAt,
         updatedAt: currentCat.updatedAt,
-      }
+      };
     }
   }
 
   remove(id: string) {
-    let currentUser: User = CatDb.getUser(id);
-    if (currentUser === undefined)
-      return undefined;
+    const currentUser: User = CatDb.getUser(id);
+    if (currentUser === undefined) return undefined;
     else {
       CatDb.deleteUser(id);
       return true;

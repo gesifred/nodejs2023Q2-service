@@ -26,26 +26,24 @@ export class ArtistService {
   }
 
   findOne(id: string) {
-    let currentArtist: Artist = ArtistDb.getArtist(id);
+    const currentArtist: Artist = ArtistDb.getArtist(id);
 
     /*this.cats.forEach(cat => {
       if (cat.id == id) currentCat = cat
     });*/
-    if (currentArtist === undefined)
-      return false
-    else
-      return currentArtist
+    if (currentArtist === undefined) return false;
+    else return currentArtist;
 
     return `This action returns a #${id} artist`;
   }
 
   update(id: string, updateArtistDto: UpdateArtistDto) {
-    let currentArtist: Artist = ArtistDb.getArtist(id);
-    if (currentArtist === undefined)
-      return undefined
+    const currentArtist: Artist = ArtistDb.getArtist(id);
+    if (currentArtist === undefined) return undefined;
     else {
       if (updateArtistDto.name) currentArtist.name = updateArtistDto.name;
-      if (updateArtistDto.grammy !== undefined) currentArtist.grammy = updateArtistDto.grammy;
+      if (updateArtistDto.grammy !== undefined)
+        currentArtist.grammy = updateArtistDto.grammy;
       ArtistDb.updateArtist(currentArtist);
       return currentArtist;
     }
@@ -53,26 +51,25 @@ export class ArtistService {
   }
 
   remove(id: string) {
-    let currentArtist: Artist = ArtistDb.getArtist(id);
-    if (currentArtist === undefined)
-      return undefined;
+    const currentArtist: Artist = ArtistDb.getArtist(id);
+    if (currentArtist === undefined) return undefined;
     else {
       ArtistDb.deleteArtist(id);
       const albums = AlbumDb.getAllAlbum();
-      albums.forEach(album => {
+      albums.forEach((album) => {
         if (album.artistId === id) {
           album.artistId = null;
           AlbumDb.updateAlbum(album);
         }
-      })
+      });
       const tracks = TrackDb.getAllTrack();
-      tracks.forEach(track => {
+      tracks.forEach((track) => {
         if (track.artistId === id) {
           track.artistId = null;
           TrackDb.updateTrack(track);
         }
-      })
-      FavsDb.remove("artist", id);
+      });
+      FavsDb.remove('artist', id);
       return true;
     }
     return `This action removes a #${id} artist`;

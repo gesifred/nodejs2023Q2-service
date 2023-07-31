@@ -1,4 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, ParseUUIDPipe, NotFoundException, Put, ForbiddenException } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  HttpCode,
+  ParseUUIDPipe,
+  NotFoundException,
+  Put,
+} from '@nestjs/common';
 import { ArtistService } from './artist.service';
 import { CreateArtistDto } from './dto/create-artist.dto';
 import { UpdateArtistDto } from './dto/update-artist.dto';
@@ -30,13 +41,14 @@ export class ArtistController {
   }
 
   @Put(':id')
-  update(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
-    @Body() updateArtistDto: UpdateArtistDto) {
-      const artist = this.artistService.update(id, updateArtistDto);
-      if( artist === undefined )
-        throw new NotFoundException(`artist ${id} doesnt exist in database`);
-      else 
-        return artist;
+  update(
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
+    @Body() updateArtistDto: UpdateArtistDto,
+  ) {
+    const artist = this.artistService.update(id, updateArtistDto);
+    if (artist === undefined)
+      throw new NotFoundException(`artist ${id} doesnt exist in database`);
+    else return artist;
     //return this.artistService.update(id, updateArtistDto);
   }
 
@@ -44,9 +56,7 @@ export class ArtistController {
   @HttpCode(204)
   remove(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
     //return this.artistService.remove(id);
-    if (this.artistService.remove(id))
-      return "Artist was found and deleted"
-    else 
-      throw new NotFoundException(`Artist ${id} doesnt exist in database`);
+    if (this.artistService.remove(id)) return 'Artist was found and deleted';
+    else throw new NotFoundException(`Artist ${id} doesnt exist in database`);
   }
 }

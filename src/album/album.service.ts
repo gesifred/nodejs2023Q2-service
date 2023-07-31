@@ -13,8 +13,8 @@ export class AlbumService {
       id: uuidv4(),
       name: createAlbumDto.name,
       year: createAlbumDto.year,
-      artistId: createAlbumDto.artistId || null
-    }
+      artistId: createAlbumDto.artistId || null,
+    };
     AlbumDb.addAlbum(currAlbum);
     return currAlbum;
   }
@@ -26,22 +26,20 @@ export class AlbumService {
 
   findOne(id: string) {
     const currAlbum: Album = AlbumDb.getAlbum(id);
-    if (currAlbum === undefined)
-      return false;
-    else
-      return currAlbum;
+    if (currAlbum === undefined) return false;
+    else return currAlbum;
 
     return `This action returns a #${id} album`;
   }
 
   update(id: string, updateAlbumDto: UpdateAlbumDto) {
-    let currAlbum: Album = AlbumDb.getAlbum(id);
-    if (currAlbum === undefined)
-      return undefined;
+    const currAlbum: Album = AlbumDb.getAlbum(id);
+    if (currAlbum === undefined) return undefined;
     else {
       if (updateAlbumDto.name) currAlbum.name = updateAlbumDto.name;
       if (updateAlbumDto.year) currAlbum.year = updateAlbumDto.year;
-      if (updateAlbumDto.artistId !== undefined) currAlbum.artistId = updateAlbumDto.artistId;
+      if (updateAlbumDto.artistId !== undefined)
+        currAlbum.artistId = updateAlbumDto.artistId;
       AlbumDb.updateAlbum(currAlbum);
       return currAlbum;
     }
@@ -49,19 +47,18 @@ export class AlbumService {
   }
 
   remove(id: string) {
-    let currAlbum: Album = AlbumDb.getAlbum(id);
-    if (currAlbum === undefined)
-      return undefined;
+    const currAlbum: Album = AlbumDb.getAlbum(id);
+    if (currAlbum === undefined) return undefined;
     else {
       AlbumDb.deleteAlbum(id);
       const tracks = TrackDb.getAllTrack();
-      tracks.forEach(track => {
+      tracks.forEach((track) => {
         if (track.albumId === id) {
           track.albumId = null;
           TrackDb.updateTrack(track);
         }
-      })
-      FavsDb.remove("album", id);
+      });
+      FavsDb.remove('album', id);
       return true;
     }
     return `This action removes a #${id} album`;

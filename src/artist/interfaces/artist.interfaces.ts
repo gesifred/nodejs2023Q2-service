@@ -1,9 +1,9 @@
 export interface Artist {
-    id: string; // uuid v4
-    name: string;
-    grammy: boolean;
-  }
+  id: string; // uuid v4
+  name: string;
+  grammy: boolean;
+}
 export interface CreateArtistDto {
-    name: string;
-    grammy: boolean;
-  }
+  name: string;
+  grammy: boolean;
+}

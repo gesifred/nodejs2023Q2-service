@@ -15,7 +15,7 @@ export class TrackService {
       duration: createTrackDto.duration,
       artistId: createTrackDto.artistId || null,
       albumId: createTrackDto.albumId || null,
-    }
+    };
     TrackDb.addTrack(currTrack);
     return currTrack;
     return 'This action adds a new track';
@@ -28,22 +28,21 @@ export class TrackService {
 
   findOne(id: string) {
     const currTrack: Track = TrackDb.getTrack(id);
-    if (currTrack === undefined)
-      return false;
-    else
-      return currTrack;
+    if (currTrack === undefined) return false;
+    else return currTrack;
     return `This action returns a #${id} track`;
   }
 
   update(id: string, updateTrackDto: UpdateTrackDto) {
-    let currTrack: Track = TrackDb.getTrack(id);
-    if (currTrack === undefined)
-      return undefined;
+    const currTrack: Track = TrackDb.getTrack(id);
+    if (currTrack === undefined) return undefined;
     else {
       if (updateTrackDto.name) currTrack.name = updateTrackDto.name;
       if (updateTrackDto.duration) currTrack.duration = updateTrackDto.duration;
-      if (updateTrackDto.artistId !== undefined) currTrack.artistId = updateTrackDto.artistId;
-      if (updateTrackDto.albumId !== undefined) currTrack.albumId = updateTrackDto.albumId;
+      if (updateTrackDto.artistId !== undefined)
+        currTrack.artistId = updateTrackDto.artistId;
+      if (updateTrackDto.albumId !== undefined)
+        currTrack.albumId = updateTrackDto.albumId;
       TrackDb.updateTrack(currTrack);
       return currTrack;
     }
@@ -51,12 +50,11 @@ export class TrackService {
   }
 
   remove(id: string) {
-    let currTrack: Track = TrackDb.getTrack(id);
-    if (currTrack === undefined)
-      return undefined;
+    const currTrack: Track = TrackDb.getTrack(id);
+    if (currTrack === undefined) return undefined;
     else {
       TrackDb.deleteTrack(id);
-      FavsDb.remove("track", id);
+      FavsDb.remove('track', id);
       return true;
     }
   }

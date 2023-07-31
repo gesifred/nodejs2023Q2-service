@@ -1,4 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, ParseUUIDPipe, Put, NotFoundException } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  HttpCode,
+  ParseUUIDPipe,
+  Put,
+  NotFoundException,
+} from '@nestjs/common';
 import { TrackService } from './track.service';
 import { CreateTrackDto } from './dto/create-track.dto';
 import { UpdateTrackDto } from './dto/update-track.dto';
@@ -29,13 +40,14 @@ export class TrackController {
   }
 
   @Put(':id')
-  update(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string, 
-    @Body() updateTrackDto: UpdateTrackDto) {
-      const track = this.trackService.update(id, updateTrackDto);
-      if( track === undefined )
-        throw new NotFoundException(`Track ${id} doesnt exist in database`);
-      else 
-        return track;
+  update(
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
+    @Body() updateTrackDto: UpdateTrackDto,
+  ) {
+    const track = this.trackService.update(id, updateTrackDto);
+    if (track === undefined)
+      throw new NotFoundException(`Track ${id} doesnt exist in database`);
+    else return track;
     //return this.trackService.update(id, updateTrackDto);
   }
 
@@ -43,9 +55,7 @@ export class TrackController {
   @HttpCode(204)
   remove(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
     //return this.trackService.remove(id);
-    if (this.trackService.remove(id))
-      return "Track was found and deleted"
-    else 
-      throw new NotFoundException(`Track ${id} doesnt exist in database`);
+    if (this.trackService.remove(id)) return 'Track was found and deleted';
+    else throw new NotFoundException(`Track ${id} doesnt exist in database`);
   }
 }
