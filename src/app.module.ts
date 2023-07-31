@@ -17,7 +17,7 @@ import { ConfigModule } from '@nestjs/config';
     FavsModule,
     ConfigModule.forRoot(),
   ],
-  controllers: [AppController],
+  controllers: [],
   providers: [AppService],
 })
 export class AppModule {}
