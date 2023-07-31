@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import ArtistDb from './InMemoryArtistDb';
 import AlbumDb from 'src/album/InMemoryAlbumDb';
 import TrackDb from 'src/track/InMemoryTrackDb';
+import FavsDb from 'src/favs/InMemoryFavsDb';
 @Injectable()
 export class ArtistService {
   create(createArtistDto: CreateArtistDto) {
@@ -71,6 +72,7 @@ export class ArtistService {
           TrackDb.updateTrack(track);
         }
       })
+      FavsDb.remove("artist", id);
       return true;
     }
     return `This action removes a #${id} artist`;

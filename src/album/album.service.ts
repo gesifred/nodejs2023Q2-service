@@ -5,6 +5,7 @@ import { Album } from './interfaces/album.interfaces';
 import { v4 as uuidv4 } from 'uuid';
 import AlbumDb from './InMemoryAlbumDb';
 import TrackDb from 'src/track/InMemoryTrackDb';
+import FavsDb from 'src/favs/InMemoryFavsDb';
 @Injectable()
 export class AlbumService {
   create(createAlbumDto: CreateAlbumDto) {
@@ -60,6 +61,7 @@ export class AlbumService {
           TrackDb.updateTrack(track);
         }
       })
+      FavsDb.remove("album", id);
       return true;
     }
     return `This action removes a #${id} album`;

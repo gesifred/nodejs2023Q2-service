@@ -4,6 +4,7 @@ import { UpdateTrackDto } from './dto/update-track.dto';
 import { Track } from './interfaces/track.interfaces';
 import TrackDb from './InMemoryTrackDb';
 import { v4 as uuidv4 } from 'uuid';
+import FavsDb from 'src/favs/InMemoryFavsDb';
 
 @Injectable()
 export class TrackService {
@@ -55,6 +56,7 @@ export class TrackService {
       return undefined;
     else {
       TrackDb.deleteTrack(id);
+      FavsDb.remove("track", id);
       return true;
     }
   }
