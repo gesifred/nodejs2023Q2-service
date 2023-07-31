@@ -4,6 +4,7 @@ import { UpdateAlbumDto } from './dto/update-album.dto';
 import { Album } from './interfaces/album.interfaces';
 import { v4 as uuidv4 } from 'uuid';
 import AlbumDb from './InMemoryAlbumDb';
+import TrackDb from 'src/track/InMemoryTrackDb';
 @Injectable()
 export class AlbumService {
   create(createAlbumDto: CreateAlbumDto) {
@@ -52,6 +53,13 @@ export class AlbumService {
       return undefined;
     else {
       AlbumDb.deleteAlbum(id);
+      const tracks = TrackDb.getAllTrack();
+      tracks.forEach(track => {
+        if (track.albumId === id) {
+          track.albumId = null;
+          TrackDb.updateTrack(track);
+        }
+      })
       return true;
     }
     return `This action removes a #${id} album`;

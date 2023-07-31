@@ -5,6 +5,7 @@ import { Artist } from './interfaces/artist.interfaces';
 import { v4 as uuidv4 } from 'uuid';
 import ArtistDb from './InMemoryArtistDb';
 import AlbumDb from 'src/album/InMemoryAlbumDb';
+import TrackDb from 'src/track/InMemoryTrackDb';
 @Injectable()
 export class ArtistService {
   create(createArtistDto: CreateArtistDto) {
@@ -61,6 +62,13 @@ export class ArtistService {
         if (album.artistId === id) {
           album.artistId = null;
           AlbumDb.updateAlbum(album);
+        }
+      })
+      const tracks = TrackDb.getAllTrack();
+      tracks.forEach(track => {
+        if (track.artistId === id) {
+          track.artistId = null;
+          TrackDb.updateTrack(track);
         }
       })
       return true;
