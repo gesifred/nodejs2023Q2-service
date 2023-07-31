@@ -17,6 +17,9 @@ Service to generate Music favorites in some InMemory database:
  Clone repository and change to **dev** branch
 ```
 git clone { THIS repository URL }
+
+cd nodejs2023Q2-service
+
 git checkout dev
 ```
 
