@@ -1,20 +1,20 @@
 //import { v4 as uuidv4 } from 'uuid';
 //import { UpdateCatDto } from './dto/update-passwd.dto';
 
-import { Artist } from './interfaces/artist.interfaces';
+import { ArtistInterface } from './interfaces/artist.interfaces';
 
 class ArtistDb {
-  private static readonly cats: Map<string, Artist> = new Map<string, Artist>();
+  private static readonly cats: Map<string, ArtistInterface> = new Map<string, ArtistInterface>();
 
   /*constructor() {
         Db.users = new Map<string, User>();
     }*/
 
-  static getArtist(id: string): Artist | undefined {
+  static getArtist(id: string): ArtistInterface | undefined {
     return ArtistDb.cats.get(id);
   }
 
-  static addArtist(user: Artist): void {
+  static addArtist(user: ArtistInterface): void {
     ArtistDb.cats.set(user.id, user);
   }
 
@@ -22,9 +22,9 @@ class ArtistDb {
     return ArtistDb.cats.delete(id);
   }
 
-  static updateArtist(user: Artist): boolean {
+  static updateArtist(user: ArtistInterface): boolean {
     //todo
-    const record: Artist | undefined = ArtistDb.cats.get(user.id);
+    const record: ArtistInterface | undefined = ArtistDb.cats.get(user.id);
     if (record) {
       /*let el: string;
             for (el of Object.keys(user)) {
@@ -37,11 +37,11 @@ class ArtistDb {
     return false;
   }
 
-  static getAllArtist(): Array<Artist> {
-    const allUsers: Array<Artist> = [];
+  static getAllArtist(): Array<ArtistInterface> {
+    const allUsers: Array<ArtistInterface> = [];
     for (const entry of ArtistDb.cats.entries()) {
-      console.log('adding', entry[0], entry[1] as Artist);
-      const cleanCat: Artist = {
+      console.log('adding', entry[0], entry[1] as ArtistInterface);
+      const cleanCat: ArtistInterface = {
         id: '', // uuid v4
         name: '',
         grammy: false,

@@ -1,7 +1,7 @@
 //import { v4 as uuidv4 } from 'uuid';
 //import { UpdateCatDto } from './dto/update-passwd.dto';
 
-import { Artist } from 'src/artist/interfaces/artist.interfaces';
+import { ArtistInterface } from 'src/artist/interfaces/artist.interfaces';
 import { FavoritesResponse, Favs } from './interfaces/favs.interfaces';
 import { Album } from 'src/album/interfaces/album.interfaces';
 import { Track } from 'src/track/interfaces/track.interfaces';
@@ -37,11 +37,11 @@ class FavsDb {
     }
   }
   static getAll(): FavoritesResponse {
-    const artists: Artist[] = [];
+    const artists: ArtistInterface[] = [];
     const albums: Album[] = [];
     const tracks: Track[] = [];
     this.favs.artists.forEach((id) => {
-      const artistEntity: Artist = ArtistDb.getArtist(id);
+      const artistEntity: ArtistInterface = ArtistDb.getArtist(id);
       if (artistEntity !== undefined) artists.push(artistEntity);
     });
     this.favs.albums.forEach((id) => {

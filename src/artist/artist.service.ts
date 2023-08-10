@@ -1,22 +1,31 @@
 import { Injectable } from '@nestjs/common';
 import { CreateArtistDto } from './dto/create-artist.dto';
 import { UpdateArtistDto } from './dto/update-artist.dto';
-import { Artist } from './interfaces/artist.interfaces';
+import { ArtistInterface } from './interfaces/artist.interfaces';
 import { v4 as uuidv4 } from 'uuid';
 import ArtistDb from './InMemoryArtistDb';
 import AlbumDb from 'src/album/InMemoryAlbumDb';
 import TrackDb from 'src/track/InMemoryTrackDb';
 import FavsDb from 'src/favs/InMemoryFavsDb';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Artist } from './entities/artist.entity';
+import { Repository } from 'typeorm';
 @Injectable()
 export class ArtistService {
-  create(createArtistDto: CreateArtistDto) {
+  constructor(
+    @InjectRepository(Artist)
+    private readonly artistRepository: Repository<Artist>
+  ) {}
+  async create(createArtistDto: CreateArtistDto) {
     console.log(createArtistDto);
-    const currentArtist: Artist = {
+
+    const currentArtist: ArtistInterface = {
       id: uuidv4(),
       name: createArtistDto.name,
       grammy: createArtistDto.grammy,
     };
     ArtistDb.addArtist(currentArtist);
+    await this.artistRepository.save(currentArtist);
     return currentArtist;
   }
 
@@ -26,7 +35,7 @@ export class ArtistService {
   }
 
   findOne(id: string) {
-    const currentArtist: Artist = ArtistDb.getArtist(id);
+    const currentArtist: ArtistInterface = ArtistDb.getArtist(id);
 
     /*this.cats.forEach(cat => {
       if (cat.id == id) currentCat = cat
@@ -38,7 +47,7 @@ export class ArtistService {
   }
 
   update(id: string, updateArtistDto: UpdateArtistDto) {
-    const currentArtist: Artist = ArtistDb.getArtist(id);
+    const currentArtist: ArtistInterface = ArtistDb.getArtist(id);
     if (currentArtist === undefined) return undefined;
     else {
       if (updateArtistDto.name) currentArtist.name = updateArtistDto.name;
@@ -51,7 +60,7 @@ export class ArtistService {
   }
 
   remove(id: string) {
-    const currentArtist: Artist = ArtistDb.getArtist(id);
+    const currentArtist: ArtistInterface = ArtistDb.getArtist(id);
     if (currentArtist === undefined) return undefined;
     else {
       ArtistDb.deleteArtist(id);
