@@ -22,8 +22,8 @@ export class Album implements AlbumInterface {
   //@JoinColumn()
   //artist: Artist
 
-  /*@Column({ default: false, select: true })
-  isFavorite: boolean*/
+  @Column({ default: false, select: false })
+  isFavorite: boolean
 
   @OneToMany(() => Track, (track) => track.albumId)
   tracks: Track[]

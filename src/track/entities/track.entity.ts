@@ -28,4 +28,7 @@ export class Track implements TrackInterface {
   
   @Column({ })
   duration: number; // integer number
+
+  @Column({ default: false, select: false })
+  isFavorite: boolean
 }

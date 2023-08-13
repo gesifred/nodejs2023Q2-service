@@ -19,4 +19,6 @@ export class Artist implements ArtistInterface {
   @OneToMany(() => Track, (track) => track.artistId)
   tracks: Track[]
 
+  @Column({ default: false, select: false })
+  isFavorite: boolean
 }

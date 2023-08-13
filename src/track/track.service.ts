@@ -18,7 +18,7 @@ export class TrackService {
     private readonly albumRepository: Repository<Album>,
     @InjectRepository(Artist)
     private readonly artistRepository: Repository<Artist>
-  ){}
+  ) { }
   async create(createTrackDto: CreateTrackDto) {
     /*const currTrack: TrackInterface = {
       id: uuidv4(),
@@ -33,28 +33,28 @@ export class TrackService {
     currTrack.name = createTrackDto.name;
     currTrack.duration = createTrackDto.duration;
     console.log(currTrack.id);
+    
     let id = createTrackDto.artistId;
-    const artist = await this.artistRepository.findOneBy({ id })
-    let artistSettled = false, albumSettled = false 
+    let artistSetled = false
+    let artist;
+    if (id !== null) artist = await this.artistRepository.findOneBy({ id })
+    console.log(artist)
     if (artist) {
       currTrack.artistId = artist;
-      artistSettled = true
-    } else {
-      currTrack.artistId = null
+      artistSetled = true
     }
-
     id = createTrackDto.albumId;
-    const album = await this.albumRepository.findOneBy({ id })
+    let albumSetled = false
+    let album;
+    if (id !== null) album = await this.albumRepository.findOneBy({ id })
+    console.log(album)
     if (album) {
       currTrack.albumId = album;
-      albumSettled = true;
-    } else {
-      currTrack.albumId = null
+      albumSetled = true
     }
-    console.log(album)
     await this.trackRepository.save(currTrack);
-    currTrack.albumId = albumSettled ? createTrackDto.albumId: null;
-    currTrack.artistId = artistSettled ? createTrackDto.artistId: null;
+    currTrack.albumId = albumSetled ? createTrackDto.albumId : null;
+    currTrack.artistId = artistSetled ? createTrackDto.artistId : null;
     return currTrack;
   }
 
@@ -64,8 +64,6 @@ export class TrackService {
 
   async findOne(id: string) {
     const currTrack: TrackInterface = await this.trackRepository.findOneBy({ id })//TrackDb.getTrack(id);
-    /*if (currTrack === undefined) return false;
-    else return currTrack;*/
     return currTrack == null ? false : currTrack;
   }
 
@@ -77,14 +75,29 @@ export class TrackService {
       Object.keys(updatedTrack).forEach(el => {
         if (!Object.keys(currTrack).includes(el)) delete updatedTrack[el];
       })
-      /*if (updateTrackDto.name) currTrack.name = updateTrackDto.name;
-      if (updateTrackDto.duration) currTrack.duration = updateTrackDto.duration;
-      if (updateTrackDto.artistId !== undefined)
-        currTrack.artistId = updateTrackDto.artistId;
-      if (updateTrackDto.albumId !== undefined)
-        currTrack.albumId = updateTrackDto.albumId;*/
-      //TrackDb.updateTrack(currTrack);
+      let id = updateTrackDto.artistId;
+      let artistSetled = false
+      let artist;
+      if (id !== null) artist = await this.artistRepository.findOneBy({ id })
+      console.log(artist)
+      if (artist) {
+        updatedTrack.artistId = artist;
+        artistSetled = true
+      }
+      id = updateTrackDto.albumId;
+      let albumSetled = false
+      let album;
+      if (id !== null) album = await this.albumRepository.findOneBy({ id })
+      console.log(album)
+      if (album) {
+        updatedTrack.albumId = album;
+        albumSetled = true
+      }
       await this.trackRepository.save(updatedTrack);
+      if (!artistSetled) updatedTrack.artistId = null
+      else updatedTrack.artistId = updateTrackDto.artistId;
+      if (!albumSetled) updatedTrack.albumId = null
+      else updatedTrack.albumId = updateTrackDto.albumId;
       return updatedTrack;
     }
   }
