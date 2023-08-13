@@ -23,20 +23,20 @@ export class UserController {
 
   @Post()
   @HttpCode(201)
-  create(@Body() createCatDto: CreateUserDto) {
+  async create(@Body() createCatDto: CreateUserDto) {
     console.log(createCatDto);
-    return this.userService.create(createCatDto);
+    return await this.userService.create(createCatDto);
   }
 
   @Get()
-  findAll() {
-    return this.userService.findAll();
+  async findAll() {
+    return await this.userService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string) {
     if (!validate(id)) throw new BadRequestException('Invalid userId'); //400
-    const resp = this.userService.findOne(id);
+    const resp = await this.userService.findOne(id);
     if (!resp) {
       throw new NotFoundException(`user ${id} doesnt exist in database`);
     } else {
@@ -44,11 +44,11 @@ export class UserController {
     }
   }
   @Put(':id')
-  updatePassword(
+  async updatePassword(
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Body() updateUserDto: UpdateUserDto,
   ) {
-    const cat = this.userService.updatePassword(id, updateUserDto);
+    const cat = await this.userService.updatePassword(id, updateUserDto);
     if (cat === undefined)
       throw new NotFoundException(`user ${id} doesnt exist in database`);
     else if (cat === false)
@@ -57,8 +57,8 @@ export class UserController {
   }
   @Delete(':id')
   @HttpCode(204)
-  remove(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
-    if (this.userService.remove(id)) return 'User was found and deleted';
+  async remove(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
+    if (await this.userService.remove(id)) return 'User was found and deleted';
     else throw new NotFoundException(`user ${id} doesnt exist in database`);
   }
 }
