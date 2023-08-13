@@ -1,20 +1,17 @@
-//import { v4 as uuidv4 } from 'uuid';
-//import { UpdateCatDto } from './dto/update-passwd.dto';
-
-import { Track } from './interfaces/track.interfaces';
+import { TrackInterface } from './interfaces/track.interfaces';
 
 class TrackDb {
-  private static readonly cats: Map<string, Track> = new Map<string, Track>();
+  private static readonly cats: Map<string, TrackInterface> = new Map<string, TrackInterface>();
 
   /*constructor() {
         Db.users = new Map<string, User>();
     }*/
 
-  static getTrack(id: string): Track | undefined {
+  static getTrack(id: string): TrackInterface | undefined {
     return TrackDb.cats.get(id);
   }
 
-  static addTrack(user: Track): void {
+  static addTrack(user: TrackInterface): void {
     TrackDb.cats.set(user.id, user);
   }
 
@@ -22,9 +19,9 @@ class TrackDb {
     return TrackDb.cats.delete(id);
   }
 
-  static updateTrack(user: Track): boolean {
+  static updateTrack(user: TrackInterface): boolean {
     //todo
-    const record: Track | undefined = TrackDb.cats.get(user.id);
+    const record: TrackInterface | undefined = TrackDb.cats.get(user.id);
     if (record) {
       Object.assign(record, user);
       TrackDb.cats.set(user.id, record);
@@ -33,11 +30,11 @@ class TrackDb {
     return false;
   }
 
-  static getAllTrack(): Array<Track> {
-    const allUsers: Array<Track> = [];
+  static getAllTrack(): Array<TrackInterface> {
+    const allUsers: Array<TrackInterface> = [];
     for (const entry of TrackDb.cats.entries()) {
-      console.log('adding', entry[0], entry[1] as Track);
-      const cleanCat: Track = {
+      console.log('adding', entry[0], entry[1] as TrackInterface);
+      const cleanCat: TrackInterface = {
         id: '', // uuid v4
         name: '',
         duration: 0,

@@ -18,7 +18,7 @@ const configOrm = {
   entities: [Artist, Album, Track],
   migrations: ["./src/migrations/*{.ts,.js}"],
   autoLoadEntities: true,
-  synchronize: false,
+  synchronize: true,
   cli: {
     migrationsDir: 'src/migrations',
   },

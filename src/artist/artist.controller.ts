@@ -31,8 +31,8 @@ export class ArtistController {
   }
 
   @Get(':id')
-  findOne(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
-    const resp = this.artistService.findOne(id);
+  async findOne(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
+    const resp = await this.artistService.findOne(id);
     if (!resp) {
       throw new NotFoundException(`user ${id} doesnt exist in database`);
     } else {
@@ -41,11 +41,11 @@ export class ArtistController {
   }
 
   @Put(':id')
-  update(
+  async update(
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Body() updateArtistDto: UpdateArtistDto,
   ) {
-    const artist = this.artistService.update(id, updateArtistDto);
+    const artist = await this.artistService.update(id, updateArtistDto);
     if (artist === undefined)
       throw new NotFoundException(`artist ${id} doesnt exist in database`);
     else return artist;
@@ -54,9 +54,8 @@ export class ArtistController {
 
   @Delete(':id')
   @HttpCode(204)
-  remove(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
-    //return this.artistService.remove(id);
-    if (this.artistService.remove(id)) return 'Artist was found and deleted';
+  async remove(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
+    if (await this.artistService.remove(id)) return 'Artist was found and deleted';
     else throw new NotFoundException(`Artist ${id} doesnt exist in database`);
   }
 }

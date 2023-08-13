@@ -1,21 +1,31 @@
 import { Album } from "../../album/entities/album.entity";
 import { Artist } from "../../artist/entities/artist.entity";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { TrackInterface } from "../interfaces/track.interfaces";
 
 @Entity()
-export class Track implements Track {
+export class Track implements TrackInterface {
   @PrimaryGeneratedColumn("uuid")
   id: string; // uuid v4
   
   @Column({ length: 100, })
   name: string;
+  
+  @Column({ nullable: true })
+  artistId: Artist |string | null
 
-  @ManyToOne(() => Artist, (artistId) => artistId.tracks, { onDelete: "SET NULL", nullable: true })
-  artistId: string | null; // refers to Artist
+  @Column({ nullable: true })
+  albumId: Album | string | null
 
-  @ManyToOne(() => Album, (albumId) => albumId.tracks, { onDelete: "SET NULL", nullable: true })
-  albumId: string | null; // refers to Album
+  @ManyToOne(() => Artist,/* (artist) => artist.tracks,*/ { onDelete: "SET NULL", nullable: true })
+  @JoinColumn()
+  artist: Artist; // refers to Artist
+  //artist: Artist;
 
+  @ManyToOne(() => Album,/* (album) => album.tracks,*/ { onDelete: "SET NULL", nullable: true })
+  @JoinColumn()
+  album: Album; // refers to Album
+  
   @Column({ })
   duration: number; // integer number
 }

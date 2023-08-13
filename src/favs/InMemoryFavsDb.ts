@@ -3,8 +3,8 @@
 
 import { ArtistInterface } from 'src/artist/interfaces/artist.interfaces';
 import { FavoritesResponse, Favs } from './interfaces/favs.interfaces';
-import { Album } from 'src/album/interfaces/album.interfaces';
-import { Track } from 'src/track/interfaces/track.interfaces';
+import { AlbumInterface } from 'src/album/interfaces/album.interfaces';
+import { TrackInterface } from 'src/track/interfaces/track.interfaces';
 import ArtistDb from 'src/artist/InMemoryArtistDb';
 import AlbumDb from 'src/album/InMemoryAlbumDb';
 import TrackDb from 'src/track/InMemoryTrackDb';
@@ -38,18 +38,18 @@ class FavsDb {
   }
   static getAll(): FavoritesResponse {
     const artists: ArtistInterface[] = [];
-    const albums: Album[] = [];
-    const tracks: Track[] = [];
+    const albums: AlbumInterface[] = [];
+    const tracks: TrackInterface[] = [];
     this.favs.artists.forEach((id) => {
       const artistEntity: ArtistInterface = ArtistDb.getArtist(id);
       if (artistEntity !== undefined) artists.push(artistEntity);
     });
     this.favs.albums.forEach((id) => {
-      const albumEntity: Album = AlbumDb.getAlbum(id);
+      const albumEntity: AlbumInterface = AlbumDb.getAlbum(id);
       if (albumEntity !== undefined) albums.push(albumEntity);
     });
     this.favs.tracks.forEach((id) => {
-      const trackEntity: Track = TrackDb.getTrack(id);
+      const trackEntity: TrackInterface = TrackDb.getTrack(id);
       if (trackEntity !== undefined) tracks.push(trackEntity);
     });
     return {

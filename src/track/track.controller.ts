@@ -20,18 +20,18 @@ export class TrackController {
 
   @Post()
   @HttpCode(201)
-  create(@Body() createTrackDto: CreateTrackDto) {
-    return this.trackService.create(createTrackDto);
+  async create(@Body() createTrackDto: CreateTrackDto) {
+    return await this.trackService.create(createTrackDto);
   }
 
   @Get()
-  findAll() {
-    return this.trackService.findAll();
+  async findAll() {
+    return await this.trackService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
-    const resp = this.trackService.findOne(id);
+  async findOne(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
+    const resp = await this.trackService.findOne(id);
     if (!resp) {
       throw new NotFoundException(`album ${id} doesnt exist in database`);
     } else {
@@ -40,11 +40,11 @@ export class TrackController {
   }
 
   @Put(':id')
-  update(
+  async update(
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Body() updateTrackDto: UpdateTrackDto,
   ) {
-    const track = this.trackService.update(id, updateTrackDto);
+    const track = await this.trackService.update(id, updateTrackDto);
     if (track === undefined)
       throw new NotFoundException(`Track ${id} doesnt exist in database`);
     else return track;
@@ -53,9 +53,9 @@ export class TrackController {
 
   @Delete(':id')
   @HttpCode(204)
-  remove(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
+  async remove(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
     //return this.trackService.remove(id);
-    if (this.trackService.remove(id)) return 'Track was found and deleted';
+    if (await this.trackService.remove(id)) return 'Track was found and deleted';
     else throw new NotFoundException(`Track ${id} doesnt exist in database`);
   }
 }
