@@ -29,6 +29,8 @@ git checkout dev
 npm install
 ```
 ## Running application with docker containers and docker-compose
+docker hub image: https://hub.docker.com/r/gesifred/nestjs-home-library
+
 To run the app and the postgres database use:
 ```
 docker-compose up
@@ -95,6 +97,7 @@ also it is capable to run all tests `npm run test`
   - Custom network named: `postgres` with `bridge` driver
   - Both use hostnames for communication inside the internal network
   - The `.env` file is copied only for testing purposes, to define an own environment one could create proper .env file
+  - The app image is located in docker-hub : https://hub.docker.com/r/gesifred/nestjs-home-library
 
 ## Running application
 
