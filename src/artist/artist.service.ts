@@ -14,7 +14,7 @@ export class ArtistService {
     private readonly artistRepository: Repository<Artist>
   ) { }
   async create(createArtistDto: CreateArtistDto) {
-    console.log(createArtistDto);
+    //console.log(createArtistDto);
 
     const currentArtist: ArtistInterface = {
       id: uuidv4(),
@@ -33,7 +33,7 @@ export class ArtistService {
 
   async findOne(id: string) {
     const currentArtist: ArtistInterface = await this.artistRepository.findOneBy({ id })//ArtistDb.getArtist(id);
-    console.log(currentArtist)
+    //console.log(currentArtist)
     /*this.cats.forEach(cat => {
       if (cat.id == id) currentCat = cat
     });*/
@@ -62,7 +62,7 @@ export class ArtistService {
 
   async remove(id: string) {
     const currentArtist: ArtistInterface = await this.artistRepository.findOneBy({ id }) //ArtistDb.getArtist(id);
-    console.log(currentArtist)
+    //console.log(currentArtist)
     if (currentArtist == null) return undefined;
     else {
       //ArtistDb.deleteArtist(id);

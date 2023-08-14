@@ -32,13 +32,13 @@ export class TrackService {
     currTrack.id = uuidv4();
     currTrack.name = createTrackDto.name;
     currTrack.duration = createTrackDto.duration;
-    console.log(currTrack.id);
+    //console.log(currTrack.id);
     
     let id = createTrackDto.artistId;
     let artistSetled = false
     let artist;
     if (id !== null) artist = await this.artistRepository.findOneBy({ id })
-    console.log(artist)
+    //console.log(artist)
     if (artist) {
       currTrack.artistId = artist;
       artistSetled = true
@@ -47,7 +47,7 @@ export class TrackService {
     let albumSetled = false
     let album;
     if (id !== null) album = await this.albumRepository.findOneBy({ id })
-    console.log(album)
+    //console.log(album)
     if (album) {
       currTrack.albumId = album;
       albumSetled = true
@@ -79,7 +79,7 @@ export class TrackService {
       let artistSetled = false
       let artist;
       if (id !== null) artist = await this.artistRepository.findOneBy({ id })
-      console.log(artist)
+      //console.log(artist)
       if (artist) {
         updatedTrack.artistId = artist;
         artistSetled = true
@@ -88,7 +88,7 @@ export class TrackService {
       let albumSetled = false
       let album;
       if (id !== null) album = await this.albumRepository.findOneBy({ id })
-      console.log(album)
+      //console.log(album)
       if (album) {
         updatedTrack.albumId = album;
         albumSetled = true

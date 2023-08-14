@@ -4,6 +4,8 @@ import { Track } from "./track/entities/track.entity";
 import { DataSource, DataSourceOptions } from "typeorm";
 import { ConfigService } from '@nestjs/config';
 import { config } from 'dotenv';
+import { Fav } from "./favs/entities/fav.entity";
+import { User } from "./user/entities/user.entity";
 //import "reflect-metadata";
 config();
 const configService = new ConfigService();
@@ -15,10 +17,10 @@ const configOrm = {
   username: configService.get('POSTGRES_USER'),
   password: configService.get('POSTGRES_PASSWORD'),
   database: configService.get('POSTGRES_DB'),
-  entities: [Artist, Album, Track],
+  entities: [Artist, Album, Track, Fav, User],
   migrations: ["./src/migrations/*{.ts,.js}"],
   autoLoadEntities: true,
-  synchronize: true,
+  synchronize: false,
   cli: {
     migrationsDir: 'src/migrations',
   },

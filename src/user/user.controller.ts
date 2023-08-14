@@ -24,7 +24,7 @@ export class UserController {
   @Post()
   @HttpCode(201)
   async create(@Body() createCatDto: CreateUserDto) {
-    console.log(createCatDto);
+    //console.log(createCatDto);
     return await this.userService.create(createCatDto);
   }
 

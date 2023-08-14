@@ -31,13 +31,13 @@ export class AlbumService {
     let artistSetled = false
     let artist;
     if (id !== null) artist = await this.artistRepository.findOneBy({ id })
-    console.log(artist)
+    //console.log(artist)
     if (artist) {
       currAlbum.artistId = artist;
       artistSetled = true
     }
     //AlbumDb.addAlbum(currAlbum);
-    console.log(currAlbum);
+    //console.log(currAlbum);
     await this.albumRepository.save(currAlbum);
     if (!artistSetled) currAlbum.artistId = null
     else currAlbum.artistId = createAlbumDto.artistId;
@@ -75,17 +75,17 @@ export class AlbumService {
         if (!Object.keys(currAlbum).includes(el)) delete updatedAlbum[el];
       })
       /*let id = updateAlbumDto.artistId;
-      console.log(id);
+      //console.log(id);
       if (id !== null) {
         const artist = await this.artistRepository.findOneBy({ id });
-        console.log(artist)
+        //console.log(artist)
         updatedAlbum.artistId = artist == null ? null : artist;
       }*/
       let id = updateAlbumDto.artistId;
       let artistSetled = false
       let artist;
       if (id !== null) artist = await this.artistRepository.findOneBy({ id })
-      console.log(artist)
+      //console.log(artist)
       if (artist) {
         updatedAlbum.artistId = artist;
         artistSetled = true

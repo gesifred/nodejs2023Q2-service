@@ -89,7 +89,7 @@ export class FavsService {
       .select(['track.id', 'track.isFavorite', 'track.name', 'track.artistId', 'track.albumId'])
       .where('track.id = :id', { id })
       .getOne();
-    console.log(track)
+    //console.log(track)
     if (track === null) return false;
     if (track.isFavorite == false) return false;
     track.isFavorite = false;

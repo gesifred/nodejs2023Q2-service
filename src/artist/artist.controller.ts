@@ -21,7 +21,7 @@ export class ArtistController {
   @Post()
   @HttpCode(201)
   create(@Body() createArtistDto: CreateArtistDto) {
-    console.log(createArtistDto);
+    //console.log(createArtistDto);
     return this.artistService.create(createArtistDto);
   }
 
