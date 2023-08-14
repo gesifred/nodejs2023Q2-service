@@ -1,0 +1,45 @@
+version: '3.5'
+
+networks:
+  postgres:
+    driver: bridge
+
+services:
+  db:
+    build:
+      context: .
+      dockerfile: ./t_db_dockerfile/Dockerfile
+    container_name: postgres-db-app
+##    ##command: createdb -U postgres homelibrarydb
+    restart: always
+    hostname: ${POSTGRES_HOST}
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    ports:
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    networks:
+      - postgres
+    healthcheck :
+      test: [ "CMD", "pg_isready", "-q", "-d", "homelibrarydb", "-U", "postgres" ]
+      interval : 10s
+      timeout : 10s
+      retries : 10
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nestjs-app
+    hostname: ${APP_HOST}
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - ${PORT}:${PORT}
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./src:/app/src
+    networks:
+      - postgres

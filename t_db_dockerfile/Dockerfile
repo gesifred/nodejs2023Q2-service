@@ -1,0 +1,14 @@
+FROM postgres:15.3-alpine
+
+ENV POSTGRES_HOST=db.db.com
+ENV POSTGRES_PORT=5432
+ENV POSTGRES_DB=homelibrarydb
+ENV POSTGRES_USER=postgres
+ENV POSTGRES_PASSWORD=123456
+ENV PGUSER=postgres
+ENV PGDATA=/var/lib/postgresql/data/pgdata
+
+RUN echo "...................."
+RUN echo "Loading POSTGRES CONTAINER PLEASE WAIT UNTIL READY TO RUN NEST APPLICATION AND MIGRATIONS"
+RUN echo "...................."
+EXPOSE ${POSTGRES_PORT}
