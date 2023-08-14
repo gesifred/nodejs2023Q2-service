@@ -8,6 +8,8 @@ import { Repository } from 'typeorm';
 import { Track } from 'src/track/entities/track.entity';
 import { Album } from 'src/album/entities/album.entity';
 import { Artist } from 'src/artist/entities/artist.entity';
+import { Fav } from './entities/fav.entity';
+import { FavoritesResponse } from './interfaces/favs.interfaces';
 enum FavsAvailables {
   Artist = 'artist',
   Album = 'album',
@@ -21,7 +23,9 @@ export class FavsService {
     @InjectRepository(Album)
     private readonly albumRepository: Repository<Album>,
     @InjectRepository(Artist)
-    private readonly artistRepository: Repository<Artist>
+    private readonly artistRepository: Repository<Artist>,
+    @InjectRepository(Fav)
+    private readonly favRepository: Repository<Fav>
   ) { }
 
   async addArtist(name, id) {
@@ -30,6 +34,7 @@ export class FavsService {
     if (artist == null) return false;
     artist.isFavorite = true;
     await this.artistRepository.save(artist);
+    this.utilFav();
     return true;
     //return FavsDb.add(FavsAvailables.Artist, id);
   }
@@ -42,6 +47,7 @@ export class FavsService {
     if (artist.isFavorite == false) return false;
     artist.isFavorite = false;
     await this.artistRepository.save(artist);
+    this.utilFav();
     return true;
     //return FavsDb.remove(FavsAvailables.Artist, id); // true if removed // false if doesnt in favorite
   }
@@ -51,6 +57,7 @@ export class FavsService {
     if (album == null) return false;
     album.isFavorite = true;
     await this.albumRepository.save(album);
+    this.utilFav();
     return true;
     //return FavsDb.add(FavsAvailables.Album, id);
   }
@@ -63,6 +70,7 @@ export class FavsService {
     if (album.isFavorite == false) return false;
     album.isFavorite = false;
     await this.albumRepository.save(album);
+    this.utilFav();
     return true;
     //return FavsDb.remove(FavsAvailables.Album, id); // true if removed // false if doesnt in favorite
   }
@@ -72,6 +80,7 @@ export class FavsService {
     if (track == null) return false;
     track.isFavorite = true;
     await this.trackRepository.save(track);
+    this.utilFav();
     return true;
     //return FavsDb.add(FavsAvailables.Track, id);
   }
@@ -85,11 +94,12 @@ export class FavsService {
     if (track.isFavorite == false) return false;
     track.isFavorite = false;
     await this.trackRepository.save(track);
+    this.utilFav();
     return true;
     //return FavsDb.remove(FavsAvailables.Track, id); // true if removed // false if doesnt in favorite
   }
 
-  async findAll() {
+  async findAll() : Promise<FavoritesResponse>{
     const artists = await this.artistRepository.find({
       where: { isFavorite: true },
     });
@@ -117,18 +127,22 @@ export class FavsService {
       tracks: tracksArray
     }
     //return FavsDb.getAll();
-    return `This action returns all favs`;
   }
-  /*
-    findOne(id: number) {
-      return `This action returns a #${id} fav`;
-    }
-  
-    update(id: number, updateFavDto: UpdateFavDto) {
-      return `This action updates a #${id} fav`;
-    }
-  
-    remove(id: number) {
-      return `This action removes a #${id} fav`;
-    }*/
+
+  async utilFav(){
+    const favs = await this.findAll();
+    const artistArray = [];
+    const albumArray = [];
+    const trackArray = [];
+    favs.artists.forEach(artist => {
+      artistArray.push(artist.id);
+    })
+    favs.albums.forEach(album => {
+      albumArray.push(album.id);
+    })
+    favs.tracks.forEach(track => {
+      trackArray.push(track.id);
+    })
+    this.favRepository.save({id:1, artists:artistArray, albums:albumArray, tracks:trackArray});
+  }
 }
