@@ -28,6 +28,51 @@ git checkout dev
 ```
 npm install
 ```
+## Running application with docker containers and docker-compose
+To run the app and the postgres database use:
+```
+docker-compose up
+```
+to run tests without explicitly login inside container
+```
+npm run docker-app:test
+```
+
+If you want to login inside the container:
+
+```
+docker exec -it nestjs-app /bin/sh
+```
+When you are inside the container the prompt `/usr/src/app # ` will appear, 
+then inside container you can run **tests** with:
+
+```
+/usr/src/app # npm run test
+```
+
+To run a vulnerability scan you need to use `scan:vuln`
+```
+/usr/src/app # npm run scan:vuln
+```
+it will download the tool and scan vulnerabilities for you
+
+!!! It is possible to run test in local environment (outside container) by just running `npm run test`
+```
+npm run test
+```
+
+That means that **you can run test in the local code or inside the container** whatever you require/want because the parameters of the postgres containers are in the .env code in both places
+
+- To stop docker-compose use:
+
+    ```
+    docker-compose down --volumes
+    ```
+- If you decide to delete the images to start over you need to delete the postgres folder to hold volume
+use the command: `clean-postgres:folder` preferable with sudo permissions
+```
+sudo npm run clean-postgres:folder
+```
 
 ## Running application
 

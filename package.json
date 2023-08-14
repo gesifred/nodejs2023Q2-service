@@ -25,6 +25,7 @@
     "migration:show": "npm run typeorm -- migration:show -d ./src/DatasourceTypeorm.ts",
     "start:migration:dev": "npm run migration:run; npm run start:dev",
     "scan:vuln": "npm i npm-check; node ./node_modules/.bin/npm-check --skip-unused",
+    "docker-app:test": "docker exec nestjs-app npm run test",
     "clean-postgres:folder": "rimraf postgres-data"
   },
   "dependencies": {
