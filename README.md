@@ -47,11 +47,15 @@ When you are inside the container the prompt `/usr/src/app # ` will appear,
 then inside container you can run **tests** with:
 
 ```
+## inside container
+
 /usr/src/app # npm run test
 ```
 
-To run a vulnerability scan you need to use `scan:vuln`
+To run a vulnerability scan you need to use `scan:vuln` it will take a couple of minutes depending on your connection
 ```
+## inside container
+
 /usr/src/app # npm run scan:vuln
 ```
 it will download the tool and scan vulnerabilities for you
@@ -73,6 +77,24 @@ use the command: `clean-postgres:folder` preferable with sudo permissions
 ```
 sudo npm run clean-postgres:folder
 ```
+- to run docker in dettach mode 
+```
+docker-compose up -d
+```
+
+!! Remember you can still run the application in localhost, and it will connect to the postgres database
+also it is capable to run all tests `npm run test`
+
+- Some docker specs:
+  - image for postgres: `postgres:15.3-alpine`
+  - Dockerfile for postgres in folder: `./t_db_dockerfile/Dockerfile`
+  - exposed port for postgres : 5432 in ENV parameters, could change on request config
+  - image for app: `node:18.17-alpine`
+  - Dockerfile for app: `./Dockerfile`
+  - exposed port for app: 4000 in ENV parameters, could change on request config
+  - Custom network named: `postgres` with `bridge` driver
+  - Both use hostnames for communication inside the internal network
+  - The `.env` file is copied only for testing purposes, to define an own environment one could create proper .env file
 
 ## Running application
 
