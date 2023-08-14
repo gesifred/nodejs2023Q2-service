@@ -11,6 +11,7 @@ Service to generate Music favorites in some InMemory database:
 - Git - [Download & Install Git](https://git-scm.com/downloads).
 - Node.js - [Download & Install Node.js](https://nodejs.org/en/download/) and the npm package manager.
 - **! important** use the LTS version of node at least **v18.16.0**
+- Docker [Download & install for your platform](https://docs.docker.com/get-docker/)
 
 ## Downloading
 **! Important**  
@@ -20,7 +21,7 @@ git clone { THIS repository URL }
 
 cd nodejs2023Q2-service
 
-git checkout dev
+git checkout dev-docker-typeorm
 ```
 
 ## Installing NPM modules
