@@ -55,7 +55,8 @@ export class ArtistController {
   @Delete(':id')
   @HttpCode(204)
   async remove(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
-    if (await this.artistService.remove(id)) return 'Artist was found and deleted';
+    if (await this.artistService.remove(id))
+      return 'Artist was found and deleted';
     else throw new NotFoundException(`Artist ${id} doesnt exist in database`);
   }
 }

@@ -8,8 +8,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Fav } from './entities/fav.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Fav]), AlbumModule, ArtistModule, TrackModule],
+  imports: [
+    TypeOrmModule.forFeature([Fav]),
+    AlbumModule,
+    ArtistModule,
+    TrackModule,
+  ],
   controllers: [FavsController],
   providers: [FavsService],
 })
-export class FavsModule { }
+export class FavsModule {}

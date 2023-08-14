@@ -11,4 +11,4 @@ ENV PGDATA=/var/lib/postgresql/data/pgdata
 RUN echo "...................."
 RUN echo "Loading POSTGRES CONTAINER PLEASE WAIT UNTIL READY TO RUN NEST APPLICATION AND MIGRATIONS"
 RUN echo "...................."
-EXPOSE 5432
+EXPOSE ${POSTGRES_PORT}

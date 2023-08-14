@@ -57,7 +57,8 @@ export class AlbumController {
   @HttpCode(204)
   async remove(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
     //return this.albumService.remove(id);
-    if (await this.albumService.remove(id)) return 'Album was found and deleted';
+    if (await this.albumService.remove(id))
+      return 'Album was found and deleted';
     else throw new NotFoundException(`Album ${id} doesnt exist in database`);
   }
 }

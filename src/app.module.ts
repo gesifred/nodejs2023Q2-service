@@ -23,7 +23,7 @@ delete configOrm.cli;
     TrackModule,
     FavsModule,
     ConfigModule.forRoot(),
-    TypeOrmModule.forRoot(configOrm)
+    TypeOrmModule.forRoot(configOrm),
   ],
   controllers: [],
   providers: [AppService],

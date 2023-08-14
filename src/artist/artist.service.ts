@@ -3,7 +3,7 @@ import { CreateArtistDto } from './dto/create-artist.dto';
 import { UpdateArtistDto } from './dto/update-artist.dto';
 import { ArtistInterface } from './interfaces/artist.interfaces';
 import { v4 as uuidv4 } from 'uuid';
-import ArtistDb from './InMemoryArtistDb';
+//import ArtistDb from './InMemoryArtistDb';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Artist } from './entities/artist.entity';
 import { Repository } from 'typeorm';
@@ -11,8 +11,8 @@ import { Repository } from 'typeorm';
 export class ArtistService {
   constructor(
     @InjectRepository(Artist)
-    private readonly artistRepository: Repository<Artist>
-  ) { }
+    private readonly artistRepository: Repository<Artist>,
+  ) {}
   async create(createArtistDto: CreateArtistDto) {
     //console.log(createArtistDto);
 
@@ -21,7 +21,7 @@ export class ArtistService {
       name: createArtistDto.name,
       grammy: createArtistDto.grammy,
     };
-    ArtistDb.addArtist(currentArtist);
+    //ArtistDb.addArtist(currentArtist);
     await this.artistRepository.save(currentArtist);
     return currentArtist;
   }
@@ -32,7 +32,8 @@ export class ArtistService {
   }
 
   async findOne(id: string) {
-    const currentArtist: ArtistInterface = await this.artistRepository.findOneBy({ id })//ArtistDb.getArtist(id);
+    const currentArtist: ArtistInterface =
+      await this.artistRepository.findOneBy({ id }); //ArtistDb.getArtist(id);
     //console.log(currentArtist)
     /*this.cats.forEach(cat => {
       if (cat.id == id) currentCat = cat
@@ -43,13 +44,14 @@ export class ArtistService {
   }
 
   async update(id: string, updateArtistDto: UpdateArtistDto) {
-    const currentArtist: ArtistInterface = await this.artistRepository.findOneBy({ id })//ArtistDb.getArtist(id);
+    const currentArtist: ArtistInterface =
+      await this.artistRepository.findOneBy({ id }); //ArtistDb.getArtist(id);
     if (currentArtist === null) return undefined;
     else {
-      const updatedArtist = { ...currentArtist, ...updateArtistDto }
-      Object.keys(updatedArtist).forEach(el => {
+      const updatedArtist = { ...currentArtist, ...updateArtistDto };
+      Object.keys(updatedArtist).forEach((el) => {
         if (!Object.keys(currentArtist).includes(el)) delete updatedArtist[el];
-      })
+      });
       /*if (updateArtistDto.name) currentArtist.name = updateArtistDto.name;
       if (updateArtistDto.grammy !== undefined)
         currentArtist.grammy = updateArtistDto.grammy;
@@ -61,7 +63,8 @@ export class ArtistService {
   }
 
   async remove(id: string) {
-    const currentArtist: ArtistInterface = await this.artistRepository.findOneBy({ id }) //ArtistDb.getArtist(id);
+    const currentArtist: ArtistInterface =
+      await this.artistRepository.findOneBy({ id }); //ArtistDb.getArtist(id);
     //console.log(currentArtist)
     if (currentArtist == null) return undefined;
     else {

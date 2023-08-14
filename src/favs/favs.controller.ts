@@ -22,7 +22,9 @@ export class FavsController {
   //, @Param('el', new ParseEnumPipe(FavsAvailables, { errorHttpStatusCode: HttpStatus.NOT_FOUND, })) el: string
   @Post('/artist/:id')
   @HttpCode(201)
-  async addArtist(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
+  async addArtist(
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
+  ) {
     if (await this.favsService.addArtist(FavsAvailables.Artist, id))
       return `Artist ${id} added succesfully`;
     throw new UnprocessableEntityException(`Artist ${id} does not exist`); //422
@@ -30,7 +32,9 @@ export class FavsController {
   }
   @Delete('/artist/:id')
   @HttpCode(204)
-  async removeArtist(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
+  async removeArtist(
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
+  ) {
     if (await this.favsService.removeArtist(FavsAvailables.Artist, id))
       return `Artist ${id} removed`;
     throw new NotFoundException(`Artist ${id} is not a favorite`);
@@ -46,7 +50,9 @@ export class FavsController {
   }
   @Delete('/album/:id')
   @HttpCode(204)
-  async removeAlbum(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
+  async removeAlbum(
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
+  ) {
     if (await this.favsService.removeAlbum(FavsAvailables.Album, id))
       return `Album ${id} removed`;
     throw new NotFoundException(`Album ${id} is not a favorite`);
@@ -62,7 +68,9 @@ export class FavsController {
   }
   @Delete('/track/:id')
   @HttpCode(204)
-  async removeTrack(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
+  async removeTrack(
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
+  ) {
     if (await this.favsService.removeTrack(FavsAvailables.Track, id))
       return `Track ${id} removed`;
     throw new NotFoundException(`Track ${id} is not a favorite`);

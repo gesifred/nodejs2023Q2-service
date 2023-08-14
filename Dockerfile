@@ -7,7 +7,7 @@ WORKDIR /usr/src/app
 # where available (npm@5+)
 COPY package*.json ./
 
-RUN npm install
+RUN npm ci
 
 #To bundle your app's source code inside the Docker image, use the COPY instruction:
 # Bundle app source
@@ -23,5 +23,5 @@ ENV PORT=4000
 
 ##RUN npm run migration:run
 
-EXPOSE 4000
+EXPOSE ${PORT}
 CMD [ "npm", "run", "start:migration:dev"]

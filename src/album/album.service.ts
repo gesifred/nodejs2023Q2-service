@@ -13,8 +13,8 @@ export class AlbumService {
     @InjectRepository(Album)
     private readonly albumRepository: Repository<Album>,
     @InjectRepository(Artist)
-    private readonly artistRepository: Repository<Artist>
-  ) { }
+    private readonly artistRepository: Repository<Artist>,
+  ) {}
   async create(createAlbumDto: CreateAlbumDto) {
     /*const currAlbum: Album = {
       id: uuidv4(),
@@ -27,19 +27,19 @@ export class AlbumService {
     currAlbum.name = createAlbumDto.name;
     currAlbum.year = createAlbumDto.year;
     currAlbum.artistId = null;
-    let id = createAlbumDto.artistId;
-    let artistSetled = false
+    const id = createAlbumDto.artistId;
+    let artistSetled = false;
     let artist;
-    if (id !== null) artist = await this.artistRepository.findOneBy({ id })
+    if (id !== null) artist = await this.artistRepository.findOneBy({ id });
     //console.log(artist)
     if (artist) {
       currAlbum.artistId = artist;
-      artistSetled = true
+      artistSetled = true;
     }
     //AlbumDb.addAlbum(currAlbum);
     //console.log(currAlbum);
     await this.albumRepository.save(currAlbum);
-    if (!artistSetled) currAlbum.artistId = null
+    if (!artistSetled) currAlbum.artistId = null;
     else currAlbum.artistId = createAlbumDto.artistId;
     return currAlbum;
   }
@@ -58,7 +58,9 @@ export class AlbumService {
   }
 
   async findOne(id: string) {
-    const currAlbum: AlbumInterface = await this.albumRepository.findOneBy({ id })//AlbumDb.getAlbum(id);
+    const currAlbum: AlbumInterface = await this.albumRepository.findOneBy({
+      id,
+    }); //AlbumDb.getAlbum(id);
     /*if (currAlbum === undefined) return false;
     else return currAlbum;*/
     return currAlbum == null ? false : currAlbum;
@@ -66,14 +68,16 @@ export class AlbumService {
   }
 
   async update(id: string, updateAlbumDto: UpdateAlbumDto) {
-    const currAlbum: AlbumInterface = await this.albumRepository.findOneBy({ id })//AlbumDb.getAlbum(id);
+    const currAlbum: AlbumInterface = await this.albumRepository.findOneBy({
+      id,
+    }); //AlbumDb.getAlbum(id);
     if (currAlbum === null) return undefined;
     else {
       //const updatedAlbum = { ...currAlbum, ...updateAlbumDto }
-      const updatedAlbum = { ...currAlbum, ...updateAlbumDto }
-      Object.keys(updatedAlbum).forEach(el => {
+      const updatedAlbum = { ...currAlbum, ...updateAlbumDto };
+      Object.keys(updatedAlbum).forEach((el) => {
         if (!Object.keys(currAlbum).includes(el)) delete updatedAlbum[el];
-      })
+      });
       /*let id = updateAlbumDto.artistId;
       //console.log(id);
       if (id !== null) {
@@ -81,16 +85,16 @@ export class AlbumService {
         //console.log(artist)
         updatedAlbum.artistId = artist == null ? null : artist;
       }*/
-      let id = updateAlbumDto.artistId;
-      let artistSetled = false
+      const id = updateAlbumDto.artistId;
+      let artistSetled = false;
       let artist;
-      if (id !== null) artist = await this.artistRepository.findOneBy({ id })
+      if (id !== null) artist = await this.artistRepository.findOneBy({ id });
       //console.log(artist)
       if (artist) {
         updatedAlbum.artistId = artist;
-        artistSetled = true
+        artistSetled = true;
       }
-      if (!artistSetled) updatedAlbum.artistId = null
+      if (!artistSetled) updatedAlbum.artistId = null;
       //console.log(updatedAlbum.artistId)
       /*if (artist) {
         updatedAlbum.artistId = artist;
@@ -107,7 +111,7 @@ export class AlbumService {
         currAlbum.artistId = updateAlbumDto.artistId;*/
       console.log(updatedAlbum);
       await this.albumRepository.save(updatedAlbum);
-      if (!artistSetled) updatedAlbum.artistId = null
+      if (!artistSetled) updatedAlbum.artistId = null;
       else updatedAlbum.artistId = updateAlbumDto.artistId;
 
       //AlbumDb.updateAlbum(currAlbum);
@@ -116,7 +120,9 @@ export class AlbumService {
   }
 
   async remove(id: string) {
-    const currAlbum: AlbumInterface = await this.albumRepository.findOneBy({ id })//AlbumDb.getAlbum(id);
+    const currAlbum: AlbumInterface = await this.albumRepository.findOneBy({
+      id,
+    }); //AlbumDb.getAlbum(id);
     if (currAlbum === null) return undefined;
     else {
       await this.albumRepository.delete(id);

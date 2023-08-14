@@ -1,11 +1,11 @@
-import { Album } from "./album/entities/album.entity";
-import { Artist } from "./artist/entities/artist.entity";
-import { Track } from "./track/entities/track.entity";
-import { DataSource, DataSourceOptions } from "typeorm";
+import { Album } from './album/entities/album.entity';
+import { Artist } from './artist/entities/artist.entity';
+import { Track } from './track/entities/track.entity';
+import { DataSource, DataSourceOptions } from 'typeorm';
 import { ConfigService } from '@nestjs/config';
 import { config } from 'dotenv';
-import { Fav } from "./favs/entities/fav.entity";
-import { User } from "./user/entities/user.entity";
+import { Fav } from './favs/entities/fav.entity';
+import { User } from './user/entities/user.entity';
 //import "reflect-metadata";
 config();
 const configService = new ConfigService();
@@ -18,14 +18,14 @@ const configOrm = {
   password: configService.get('POSTGRES_PASSWORD'),
   database: configService.get('POSTGRES_DB'),
   entities: [Artist, Album, Track, Fav, User],
-  migrations: ["./src/migrations/*{.ts,.js}"],
+  migrations: ['./src/migrations/*{.ts,.js}'],
   autoLoadEntities: true,
   synchronize: false,
   cli: {
     migrationsDir: 'src/migrations',
   },
-}
+};
 const Ds = new DataSource(configOrm as DataSourceOptions);
 
 export default Ds;
-export {configOrm as configOrm};
+export { configOrm as configOrm };

@@ -7,9 +7,9 @@ import { AlbumModule } from 'src/album/album.module';
 import { ArtistModule } from 'src/artist/artist.module';
 
 @Module({
-  imports:[TypeOrmModule.forFeature([Track]), AlbumModule, ArtistModule],
+  imports: [TypeOrmModule.forFeature([Track]), AlbumModule, ArtistModule],
   controllers: [TrackController],
   providers: [TrackService],
-  exports: [TrackService, TypeOrmModule]
+  exports: [TrackService, TypeOrmModule],
 })
 export class TrackModule {}

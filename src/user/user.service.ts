@@ -14,11 +14,11 @@ export class UserService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-  ) { }
+  ) {}
   async create(createUserDto: CreateUserDto) {
     const currentCatDto = createUserDto;
-    const timestamp = Date.now();
-    let id = uuidv4();
+    //const timestamp = Date.now();
+    const id = uuidv4();
     const currentUser: UserInterface = {
       id: id,
       login: currentCatDto.login,
@@ -27,7 +27,7 @@ export class UserService {
       //createdAt: timestamp,
       //updatedAt: timestamp,
     };
-    await this.userRepository.save(currentUser)
+    await this.userRepository.save(currentUser);
     const currentCat = await this.userRepository.findOneBy({ id });
     //CatDb.addUser(currentUser);
     return {
@@ -41,11 +41,13 @@ export class UserService {
   }
 
   async findAll() {
-    return await this.userRepository.find();//CatDb.getAllUsers();
+    return await this.userRepository.find(); //CatDb.getAllUsers();
   }
 
   async findOne(id: string) {
-    const currentUser: UserInterface = await this.userRepository.findOneBy({ id }); //CatDb.getUser(id);
+    const currentUser: UserInterface = await this.userRepository.findOneBy({
+      id,
+    }); //CatDb.getUser(id);
 
     /*this.cats.forEach(cat => {
       if (cat.id == id) currentCat = cat
@@ -63,8 +65,16 @@ export class UserService {
   }
   async updatePassword(id: string, updateUserDto: UpdateUserDto) {
     //const currentUser: UserInterface = await this.userRepository.findOneBy({ id });//CatDb.getUser(id);
-    const currentUser = await this.userRepository.createQueryBuilder('user')
-      .select(['user.id', 'user.login', 'user.password', 'user.version', 'user.createdAt', 'user.updatedAt'])
+    const currentUser = await this.userRepository
+      .createQueryBuilder('user')
+      .select([
+        'user.id',
+        'user.login',
+        'user.password',
+        'user.version',
+        'user.createdAt',
+        'user.updatedAt',
+      ])
       .where('user.id = :id', { id })
       .getOne();
     if (currentUser === null) return undefined;
@@ -92,7 +102,9 @@ export class UserService {
   }
 
   async remove(id: string) {
-    const currentUser: UserInterface = await this.userRepository.findOneBy({ id }); //CatDb.getUser(id);
+    const currentUser: UserInterface = await this.userRepository.findOneBy({
+      id,
+    }); //CatDb.getUser(id);
     if (currentUser === null) return undefined;
     else {
       await this.userRepository.delete(id);

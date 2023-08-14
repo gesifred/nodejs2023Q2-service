@@ -55,7 +55,8 @@ export class TrackController {
   @HttpCode(204)
   async remove(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
     //return this.trackService.remove(id);
-    if (await this.trackService.remove(id)) return 'Track was found and deleted';
+    if (await this.trackService.remove(id))
+      return 'Track was found and deleted';
     else throw new NotFoundException(`Track ${id} doesnt exist in database`);
   }
 }
