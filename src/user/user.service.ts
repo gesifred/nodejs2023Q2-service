@@ -9,6 +9,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 @Injectable()
 export class UserService {
   constructor(
@@ -19,10 +20,13 @@ export class UserService {
     const currentCatDto = createUserDto;
     //const timestamp = Date.now();
     const id = uuidv4();
+    const rounds = 10;
+    const hash = await bcrypt.hash(currentCatDto.password, rounds);
+
     const currentUser: UserInterface = {
       id: id,
       login: currentCatDto.login,
-      password: currentCatDto.password,
+      password: hash,
       //version: 1,
       //createdAt: timestamp,
       //updatedAt: timestamp,
@@ -81,8 +85,13 @@ export class UserService {
     else {
       console.log('to update ', currentUser);
       //console.log(`comparing old ${updateUserDto.oldPassword} with new ${currentCat.password}`)
-      if (updateUserDto.oldPassword !== currentUser.password) return false;
-      currentUser.password = updateUserDto.newPassword;
+      const rounds = 10;
+      const hash = await bcrypt.hash(updateUserDto.oldPassword, rounds);
+      const isMatch = await bcrypt.compare(updateUserDto.oldPassword, currentUser.password);
+
+      if (!isMatch /*hash !== currentUser.password*/) return false;
+      const hashUpdate = await bcrypt.hash(updateUserDto.newPassword, rounds);
+      currentUser.password = hashUpdate;
       //currentUser.version++;
       //currentUser.updatedAt = Date.now();
       if (updateUserDto.login) currentUser.login = updateUserDto.login;

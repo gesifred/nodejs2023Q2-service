@@ -16,7 +16,7 @@ export class User implements UserInterface {
   @Column({ length: 100 })
   login: string;
 
-  @Column({ length: 50, select: false })
+  @Column({ length: 100, select: false })
   password?: string;
 
   //@Column()
